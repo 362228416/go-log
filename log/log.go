@@ -17,7 +17,7 @@ func init() {
 
 	logging.SetBackend(logging.NewLogBackend(&lumberjack.Logger{
 		Filename: GetLogsDir() + "/app.log",
-		MaxSize:  2,    // megabytes
+		MaxSize:  200,    // megabytes
 		Compress: true, // disabled by default
 	}, "", 0))
 }
