@@ -9,7 +9,7 @@ import (
 
 var log = logging.MustGetLogger("go-log")
 
-func init() {
+func Init() {
 	log.ExtraCalldepth = 1
 	var format = logging.MustStringFormatter(
 		`%{time:2006/01/02 15:04:05} %{shortfile} [%{level}] %{message}`,
