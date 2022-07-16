@@ -10,17 +10,31 @@ import (
 var log = logging.MustGetLogger("go-log")
 
 func Init() {
-	log.ExtraCalldepth = 1
-	var format = logging.MustStringFormatter(
-		`%{time:2006/01/02 15:04:05} %{shortfile} [%{level}] %{message}`,
-	)
-	logging.SetFormatter(format)
-
 	logging.SetBackend(logging.NewLogBackend(&lumberjack.Logger{
 		Filename: GetLogsDir() + "/app.log",
 		MaxSize:  200,  // megabytes
 		Compress: true, // disabled by default
 	}, "", 0))
+}
+
+func SetLogFile(fileName string) {
+	logging.SetBackend(logging.NewLogBackend(&lumberjack.Logger{
+		Filename: fileName,
+		MaxSize:  200,  // megabytes
+		Compress: true, // disabled by default
+	}, "", 0))
+}
+
+func setLogFormatter(_format string) {
+	log.ExtraCalldepth = 1
+	var format = logging.MustStringFormatter(
+		_format,
+	)
+	logging.SetFormatter(format)
+}
+
+func init() {
+	setLogFormatter(`%{time:2006/01/02 15:04:05} %{shortfile} [%{level}] %{message}`)
 }
 
 func Debug(args ...interface{}) {
