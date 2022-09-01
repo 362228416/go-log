@@ -34,7 +34,7 @@ func setLogFormatter(_format string) {
 }
 
 func init() {
-	setLogFormatter(`%{time:2006/01/02 15:04:05} %{shortfile} [%{level}] %{message}`)
+	setLogFormatter(`%{shortfile} [%{level}] %{message}`)
 }
 
 func Debug(args ...interface{}) {
