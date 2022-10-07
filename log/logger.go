@@ -26,9 +26,15 @@ func NewLogger(name string, logDir ...string) *Log {
 			MaxSize:  200,  // megabytes
 			Compress: true, // disabled by default
 		}, "", 0)
-		backend1 := logging.NewBackendFormatter(logging.NewLogBackend(os.Stderr, "", 0), format)
-		backend2 := logging.NewBackendFormatter(lb, format)
-		lg.SetBackend(logging.MultiLogger(backend1, backend2))
+
+		backend1 := logging.NewBackendFormatter(lb, format)
+		showConsoleLog := os.Getenv("STDLOG") != "0"
+		backends := []logging.Backend{backend1}
+		if showConsoleLog {
+			backend2 := logging.NewBackendFormatter(logging.NewLogBackend(os.Stderr, "", 0), format)
+			backends = append(backends, backend2)
+		}
+		lg.SetBackend(logging.MultiLogger(backends...))
 	}
 	return &Log{
 		log: lg,

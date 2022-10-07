@@ -1,10 +1,12 @@
 package log
 
 import (
+	"os"
 	"testing"
 )
 
 func TestNewLogger(t *testing.T) {
+	os.Setenv("STDLOG", "0")
 	lg1 := NewLogger("lg1", "../logs")
 	lg1.Debug("from lg1")
 	lg1.Info("from lg1")
